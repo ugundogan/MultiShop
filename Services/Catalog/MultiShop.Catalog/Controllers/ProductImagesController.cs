@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MultiShop.Catalog.Dtos.ProductImageDtos;
+using MultiShop.Catalog.Services.ProductImageServices;
 
 namespace MultiShop.Catalog.Controllers
 {
@@ -11,6 +13,46 @@ namespace MultiShop.Catalog.Controllers
     [ApiController]
     public class ProductImagesController : ControllerBase
     {
-        //sdsdsd
+        private readonly IProductImageService _productImageService;
+
+        public ProductImagesController(IProductImageService productImageService)
+        {
+            _productImageService = productImageService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ProductImageList()
+        {
+            var values = await _productImageService.GetAllProductImageAsync();
+            return Ok(values);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductImageById(string id)
+        {
+            var value = await _productImageService.GetByIdProductImageAsync(id);
+            return Ok(value);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProductImage(CreateProductImageDto createProductImageDto)
+        {
+            await _productImageService.CreateProductImageAsync(createProductImageDto);
+            return Ok("Ürün görseli başarıyla eklendi!");
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteProductImage(string id)
+        {
+            await _productImageService.DeleteProductImageAsync(id);
+            return Ok("Ürün görseli başarıyla silindi!");
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProductImage(UpdateProductImageDto updateProductImageDto)
+        {
+            await _productImageService.UpdateProductImageAsync(updateProductImageDto);
+            return Ok("Ürün görseli başarıyla güncellendi!");
+        }
     }
 }
