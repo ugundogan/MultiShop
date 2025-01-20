@@ -11,5 +11,6 @@ namespace MultiShop.Catalog.Controllers
     [ApiController]
     public class ProductImagesController : ControllerBase
     {
+        //sdsdsd
     }
 }
